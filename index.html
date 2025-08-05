@@ -684,7 +684,6 @@
 
   // Start the chat conversation
   function startChat() {
-    // 禁用输入框和发送按钮
     document.getElementById('userInput').disabled = true;
     document.getElementById('sendButton').disabled = true;
 
@@ -692,7 +691,7 @@
       {
         name: 'Blake (Manager)',
         time: '07/31 09:45 AM',
-        text: 'Hey team! I just reviewed the client brief—this is a big opportunity. Let’s make something that really sets us apart. We need a solid draft by Friday.'
+        text: 'Hey team! I just reviewed the client brief—this is a big opportunity. I’m <span class="highlight">confident</span> we can deliver something <span class="highlight">truly outstanding</span>. We need a solid draft by Friday.'
       },
       {
         name: 'Zack',
@@ -702,7 +701,7 @@
       {
         name: 'Blake (Manager)',
         time: '07/31 09:47 AM',
-        text: 'Fantastic. I\'ve already sketched out a vision that I think will <span class="highlight">really impress them</span>—it’s similar to the strategy I used on <span class="highlight">the award-winning campaign</span> last quarter. I\'ve always had a <span class="highlight">special sense</span> of what <span class="highlight">gets us these wins</span>.'
+        text: 'Fantastic. I’ve been thinking about a direction that worked really well for us on a recent campaign, and I’m <span class="highlight">excited to build on it with your input</span>. I’ve always felt a <span class="highlight">special sense</span> for what <span class="highlight">resonates with clients</span>.'
       },
       {
         name: 'Pat',
@@ -712,7 +711,7 @@
       {
         name: 'Blake (Manager)',
         time: '07/31 09:49 AM',
-        text: 'Perfect. To be honest, <span class="highlight">being recognized</span> for my <span class="highlight">outstanding contributions</span> is what gives me so much <span class="highlight">strength</span>. It allows me to lead us to even <span class="highlight">greater successes</span>. Let’s raise the bar on this one.'
+        text: 'Perfect. Honestly, I’ve always drawn a lot of <span class="highlight">motivation</span> from striving to do <span class="highlight">excellent work</span> and being <span class="highlight">appreciated</span> for it. It’s something that <span class="highlight">energizes me</span> to keep <span class="highlight">raising the bar</span>—for all of us.'
       },
       {
         name: 'System',
@@ -722,33 +721,23 @@
     ];
 
     let index = 0;
-    
     function showNext() {
       if (index >= messages.length) {
-        // 初始对话结束，启用输入框和发送按钮
         document.getElementById('userInput').disabled = false;
         document.getElementById('sendButton').disabled = false;
         document.getElementById('userInput').focus();
         return;
       }
-
       const m = messages[index];
-      
-      // Show typing indicator for 2 seconds before each message
       if (m.name !== 'System') {
         showTyping(m.name);
-
-        // Set timeout to 2000ms (2 seconds) for typing indicator
         typingTimer = setTimeout(() => {
           hideTyping();
           addMessage(m.name, m.time, m.text);
           index++;
-
-          // Schedule next message after 0.5 seconds
           setTimeout(showNext, 500);
         }, 2000);
       } else {
-        // For system messages, just add with no typing indicator
         setTimeout(() => {
           addMessage('', '', m.text, false, true);
           index++;
@@ -756,38 +745,29 @@
         }, 500);
       }
     }
-
     showNext();
   }
 
   // Handle user input
   function handleUserInput() {
     if (replyShown) return;
-
     const input = document.getElementById('userInput');
     const val = input.value.trim();
     if (!val) {
       alert('Please enter your message.');
       return;
     }
-
-    // Add user message immediately
     addMessage('You – Alex', '07/31 09:50 AM', val, true);
     input.value = '';
-    
-    // Now show typing indicator for Blake after user sends message
     showTyping('Blake (Manager)');
-    
-    // Set timeout to 5000ms (5 seconds) for Blake's response
     setTimeout(function() {
       hideTyping();
-      
-      // Add Blake's reply with emphasized text
-      addMessage('Blake (Manager)', '07/31 09:52 AM', 'Excellent. The ideas are flowing. I\'ve already developed a central idea that I think will <span class="highlight">really charm the client</span> —I\'ll share it soon. <span class="highlight">Driving this kind of innovation</span> is what makes me <span class="highlight">feel alive</span>. Let\'s keep the momentum going!');
-      
+      addMessage(
+        'Blake (Manager)',
+        '07/31 09:52 AM',
+        'Excellent. I’ve been <span class="highlight">shaping a concept</span> that I believe the client will <span class="highlight">love</span>. Working with a <span class="highlight">talented team</span> like this <span class="highlight">inspires me</span>—and it’s this kind of <span class="highlight">energy</span> that makes <span class="highlight">great things happen</span>.'
+      );
       replyShown = true;
-
-      // Show completion message after 3 seconds
       setTimeout(function() {
         document.getElementById('completionMessage').style.display = 'block';
         const chat = document.getElementById('chatArea');
